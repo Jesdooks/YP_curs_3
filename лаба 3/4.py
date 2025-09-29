@@ -1,8 +1,8 @@
-def fibonacci(n):
-    a, b = 0, 1
-    for i in range(n):
-        yield a
-        a, b = b, a + b
+def Countdown(n):
+    while n > 0:
+        yield n
+        n -= 1
 
-for i in fibonacci(5):
-    print(i)
+#yield тоже самое что и return только сохраняя все локальные переменные и позицию выполнения
+for x in Countdown(5):
+    print(x)
