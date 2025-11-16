@@ -27,8 +27,8 @@ class Task:
         return Task(
             id=data['id'],
             title=data['title'],
-            status=data.get('status', 'pending'),
-            priority=data.get('priority', 'normal'),
+            status=data.get('status', 'pending'), #pending знач по умолчанию
+            priority=data.get('priority', 'normal'), #normal знач по умолчанию
             created_at=created_at,
             due_date=due_date,
         )
