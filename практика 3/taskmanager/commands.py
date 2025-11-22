@@ -1,3 +1,7 @@
+"""
+Модуль commands - команды для управления задачами.
+"""
+
 from taskmanager.models import Task
 from taskmanager.storage import add_task, load_tasks, delete_task, update_task_status
 from datetime import datetime

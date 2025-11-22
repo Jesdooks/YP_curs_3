@@ -1,3 +1,7 @@
+"""
+Модуль models - определяет модели данных для задач.
+"""
+
 from datetime import datetime
 
 

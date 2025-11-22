@@ -1,3 +1,7 @@
+"""
+Модуль storage - управление хранением задач в JSON файле.
+"""
+
 import json
 from typing import List
 from taskmanager.models import Task
