@@ -15,9 +15,12 @@ def load_tasks(file_path: str):
     try:
         with open(file_path, 'r', encoding='utf-8') as f:
             data = json.load(f)
+            if not isinstance(data, list):
+                return []
             return [Task.from_dict(x) for x in data]
     except (FileNotFoundError, json.JSONDecodeError) as e: #в () перечисл типы исключ
-        print(f"Произошла ошибка: {e}")
+        # Если файла ещё нет или в нём пусто/мусор, просто считаем, что задач пока нет
+        return []
 
 def save_tasks(tasks: List[Task], file_path: str):
     """
@@ -36,7 +39,7 @@ def save_tasks(tasks: List[Task], file_path: str):
     except IOError as e:
         print(f"Ошибка сохранения файла: {e}")
 
-def add_task(task: Task, filepath: str):
+def add_task(task: Task, file_path: str):
     """
     Добавление новой задачи task в файл по пути filepath
 
@@ -47,12 +50,12 @@ def add_task(task: Task, filepath: str):
     Returns:
         json файл: список словарей (каждая задача - словарь)
     """
-    tasks = load_tasks(filepath) #функции выше
+    tasks = load_tasks(file_path)  # функции выше
     tasks.append(task)
-    save_tasks(tasks, filepath)
+    save_tasks(tasks, file_path)
 
 
-def delete_task(task_id, filepath: str):
+def delete_task(task_id, file_path: str):
     """
     Удаление задачи по её id из файла
 
@@ -63,14 +66,14 @@ def delete_task(task_id, filepath: str):
     Returns:
         bool: True, если задача была найдена и удалена, иначе False
     """
-    tasks = load_tasks(filepath)
+    tasks = load_tasks(file_path)
     new_tasks = [t for t in tasks if t.id != task_id] #обращение к атрибуту .id объекта класса Task
     if len(new_tasks) == len(tasks):
         return False
-    save_tasks(new_tasks, filepath)
+    save_tasks(new_tasks, file_path)
     return True
 
-def update_task_status(task_id, status, filepath: str):
+def update_task_status(task_id, status, file_path: str):
     """
     Обновляет статус задачи с заданным id
 
@@ -82,7 +85,7 @@ def update_task_status(task_id, status, filepath: str):
     Returns:
         bool: True, если обновление прошло, иначе False
     """
-    tasks = load_tasks(filepath)
+    tasks = load_tasks(file_path)
     updated = False
     for task in tasks:
         if task.id == task_id:
@@ -90,7 +93,7 @@ def update_task_status(task_id, status, filepath: str):
             updated = True
             break
     if updated:
-        save_tasks(tasks, filepath)
+        save_tasks(tasks, file_path)
     return updated
 
 
