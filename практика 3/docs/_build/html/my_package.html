@@ -1,0 +1,354 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Пакет TaskManager &mdash; Практическая 3 1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=29a6c3e3"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Task Manager Documentation" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Практическая 3
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Содержание:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Пакет TaskManager</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-taskmanager.models">Модуль models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#taskmanager.models.Task"><code class="docutils literal notranslate"><span class="pre">Task</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#taskmanager.models.Task.from_dict"><code class="docutils literal notranslate"><span class="pre">Task.from_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#taskmanager.models.Task.to_dict"><code class="docutils literal notranslate"><span class="pre">Task.to_dict()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-taskmanager.storage">Модуль storage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#taskmanager.storage.add_task"><code class="docutils literal notranslate"><span class="pre">add_task()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#taskmanager.storage.delete_task"><code class="docutils literal notranslate"><span class="pre">delete_task()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#taskmanager.storage.load_tasks"><code class="docutils literal notranslate"><span class="pre">load_tasks()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#taskmanager.storage.save_tasks"><code class="docutils literal notranslate"><span class="pre">save_tasks()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#taskmanager.storage.update_task_status"><code class="docutils literal notranslate"><span class="pre">update_task_status()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-taskmanager.commands">Модуль commands</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#taskmanager.commands.add_command"><code class="docutils literal notranslate"><span class="pre">add_command()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#taskmanager.commands.delete_command"><code class="docutils literal notranslate"><span class="pre">delete_command()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#taskmanager.commands.done_command"><code class="docutils literal notranslate"><span class="pre">done_command()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#taskmanager.commands.list_command"><code class="docutils literal notranslate"><span class="pre">list_command()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Практическая 3</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Пакет TaskManager</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/my_package.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-taskmanager">
+<span id="taskmanager"></span><h1>Пакет TaskManager<a class="headerlink" href="#module-taskmanager" title="Link to this heading"></a></h1>
+<section id="module-taskmanager.models">
+<span id="models"></span><h2>Модуль models<a class="headerlink" href="#module-taskmanager.models" title="Link to this heading"></a></h2>
+<p>Модуль models - определяет модели данных для задач.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="taskmanager.models.Task">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">taskmanager.models.</span></span><span class="sig-name descname"><span class="pre">Task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">status</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pending'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">priority</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'normal'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">created_at</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">due_date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/taskmanager/models.html#Task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taskmanager.models.Task" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Класс Task используется для представления задачи с атрибутами и методами для управления статусом, приоритетом и сроками</p>
+<dl>
+<dt>Атрибуты:</dt><dd><p>id (any): уникальный идентификатор задачи
+title (str): заголовок или краткое описание задачи
+status (str): статус задачи (по умолчанию ‘pending’ - в ожидании)
+priority (str): приоритет задачи (по умолчанию ‘normal’)
+created_at (datetime): дата и время создания задачи (если не указано, устанавливается текущая дата и время)
+due_date (datetime or None): крайний срок выполнения задачи (если есть)</p>
+</dd>
+<dt>Методы:</dt><dd><dl>
+<dt>to_dict() -&gt; dict:</dt><dd><p>Преобразует объект задачи в словарь с серийными значениями (для сохранения или передачи)
+Даты преобразуются в ISO формат строк</p>
+</dd>
+<dt>from_dict(data: dict) -&gt; Task:</dt><dd><p>Статический метод, создающий объект Task из словаря
+Преобразует строки с датами из ISO формата в datetime объекты
+Args:</p>
+<blockquote>
+<div><p>data (dict): словарь со свойствами задачи, возможно, загруженный из JSON/CSV</p>
+</div></blockquote>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>Task: экземпляр задачи с заполненными атрибутами</p>
+</dd>
+<dt>Значения по умолчанию:</dt><dd><p>status: ‘pending’
+priority: ‘normal’</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="taskmanager.models.Task.from_dict">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/taskmanager/models.html#Task.from_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taskmanager.models.Task.from_dict" title="Link to this definition"></a></dt>
+<dd><p>Создает объект Task из словаря</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>dict</em>) – словарь с ключами и значениями атрибутов задачи,
+где даты представлены в ISO формате строк.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>новый объект Task с заполненными атрибутами</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#taskmanager.models.Task" title="taskmanager.models.Task">Task</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="taskmanager.models.Task.to_dict">
+<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/taskmanager/models.html#Task.to_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taskmanager.models.Task.to_dict" title="Link to this definition"></a></dt>
+<dd><p>Преобразует объект Task в словарь для сериализации</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>словарь с данными задачи, пригодный для JSON или другого формата</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-taskmanager.storage">
+<span id="storage"></span><h2>Модуль storage<a class="headerlink" href="#module-taskmanager.storage" title="Link to this heading"></a></h2>
+<p>Модуль storage - управление хранением задач в JSON файле.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="taskmanager.storage.add_task">
+<span class="sig-prename descclassname"><span class="pre">taskmanager.storage.</span></span><span class="sig-name descname"><span class="pre">add_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#taskmanager.models.Task" title="taskmanager.models.Task"><span class="pre">Task</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/taskmanager/storage.html#add_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taskmanager.storage.add_task" title="Link to this definition"></a></dt>
+<dd><p>Добавление новой задачи task в файл по пути filepath</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tasks</strong> (<em>list</em>) – список объектов Task</p></li>
+<li><p><strong>file_path</strong> – путь к файлу, куда нужно сохранить новую задачу</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>список словарей (каждая задача - словарь)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>json файл</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="taskmanager.storage.delete_task">
+<span class="sig-prename descclassname"><span class="pre">taskmanager.storage.</span></span><span class="sig-name descname"><span class="pre">delete_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/taskmanager/storage.html#delete_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taskmanager.storage.delete_task" title="Link to this definition"></a></dt>
+<dd><p>Удаление задачи по её id из файла</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>task_id</strong> – id задача, котрую нужно удалить</p></li>
+<li><p><strong>file_path</strong> – путь к файлу с задачами</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True, если задача была найдена и удалена, иначе False</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="taskmanager.storage.load_tasks">
+<span class="sig-prename descclassname"><span class="pre">taskmanager.storage.</span></span><span class="sig-name descname"><span class="pre">load_tasks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/taskmanager/storage.html#load_tasks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taskmanager.storage.load_tasks" title="Link to this definition"></a></dt>
+<dd><p>Загрузка списка задач из файла JSON или CSV</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>file_path</strong> (<em>str</em>) – строка с путем к файлу</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>список объектов Task</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[<a class="reference internal" href="#taskmanager.models.Task" title="taskmanager.models.Task">Task</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="taskmanager.storage.save_tasks">
+<span class="sig-prename descclassname"><span class="pre">taskmanager.storage.</span></span><span class="sig-name descname"><span class="pre">save_tasks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tasks</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#taskmanager.models.Task" title="taskmanager.models.Task"><span class="pre">Task</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/taskmanager/storage.html#save_tasks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taskmanager.storage.save_tasks" title="Link to this definition"></a></dt>
+<dd><p>Сохранение списка задач в файл</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tasks</strong> (<em>list</em>) – список объектов Task</p></li>
+<li><p><strong>file_path</strong> – путь к файлу, куда нужно сохранить список задачь (tasks)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>список словарей (каждая задача - словарь)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>json файл</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="taskmanager.storage.update_task_status">
+<span class="sig-prename descclassname"><span class="pre">taskmanager.storage.</span></span><span class="sig-name descname"><span class="pre">update_task_status</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">status</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/taskmanager/storage.html#update_task_status"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taskmanager.storage.update_task_status" title="Link to this definition"></a></dt>
+<dd><p>Обновляет статус задачи с заданным id</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>task_id</strong> – id задача, котрую нужно обновить</p></li>
+<li><p><strong>status</strong> – хранит статус выполнения, по умолчанию pending</p></li>
+<li><p><strong>file_path</strong> – путь к файлу с задачами</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True, если обновление прошло, иначе False</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-taskmanager.commands">
+<span id="commands"></span><h2>Модуль commands<a class="headerlink" href="#module-taskmanager.commands" title="Link to this heading"></a></h2>
+<p>Модуль commands - команды для управления задачами.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="taskmanager.commands.add_command">
+<span class="sig-prename descclassname"><span class="pre">taskmanager.commands.</span></span><span class="sig-name descname"><span class="pre">add_command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/taskmanager/commands.html#add_command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taskmanager.commands.add_command" title="Link to this definition"></a></dt>
+<dd><p>Создание новой задачи и сохранение её</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>args</strong> – передаваемые параметры объекту класса Task</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="taskmanager.commands.delete_command">
+<span class="sig-prename descclassname"><span class="pre">taskmanager.commands.</span></span><span class="sig-name descname"><span class="pre">delete_command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/taskmanager/commands.html#delete_command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taskmanager.commands.delete_command" title="Link to this definition"></a></dt>
+<dd><p>Удаление задачи по ID</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>args</strong> – передаваемые параметры объекту класса Task</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="taskmanager.commands.done_command">
+<span class="sig-prename descclassname"><span class="pre">taskmanager.commands.</span></span><span class="sig-name descname"><span class="pre">done_command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/taskmanager/commands.html#done_command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taskmanager.commands.done_command" title="Link to this definition"></a></dt>
+<dd><p>Обновление статуса конкретной задачи на “выполнена”</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>args</strong> – передаваемые параметры объекту класса Task</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="taskmanager.commands.list_command">
+<span class="sig-prename descclassname"><span class="pre">taskmanager.commands.</span></span><span class="sig-name descname"><span class="pre">list_command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/taskmanager/commands.html#list_command"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#taskmanager.commands.list_command" title="Link to this definition"></a></dt>
+<dd><p>Вывод списка задач с возможностью фильрации</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>args</strong> – передаваемые параметры объекту класса Task</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Task Manager Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Юровский Никита.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

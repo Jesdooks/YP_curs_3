@@ -1,0 +1,229 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>taskmanager.commands &mdash; Практическая 3 1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=29a6c3e3"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Практическая 3
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Содержание:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../my_package.html">Пакет TaskManager</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Практическая 3</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">taskmanager.commands</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for taskmanager.commands</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Модуль commands - команды для управления задачами.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">taskmanager.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Task</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">taskmanager.storage</span><span class="w"> </span><span class="kn">import</span> <span class="n">add_task</span><span class="p">,</span> <span class="n">load_tasks</span><span class="p">,</span> <span class="n">delete_task</span><span class="p">,</span> <span class="n">update_task_status</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">uuid</span>  <span class="c1"># генерации уникальных идентификаторов</span>
+
+<span class="c1"># Словари для перевода на русский язык</span>
+<span class="n">STATUS_TRANSLATIONS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;pending&#39;</span><span class="p">:</span> <span class="s1">&#39;в ожидании&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;done&#39;</span><span class="p">:</span> <span class="s1">&#39;выполнена&#39;</span>
+<span class="p">}</span>
+
+<span class="n">PRIORITY_TRANSLATIONS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;low&#39;</span><span class="p">:</span> <span class="s1">&#39;низкий&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;normal&#39;</span><span class="p">:</span> <span class="s1">&#39;обычный&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;high&#39;</span><span class="p">:</span> <span class="s1">&#39;высокий&#39;</span>
+<span class="p">}</span>
+
+<span class="c1"># Обратные словари для конвертации русских значений в английские</span>
+<span class="n">PRIORITY_FROM_RU</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;низкий&#39;</span><span class="p">:</span> <span class="s1">&#39;low&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;обычный&#39;</span><span class="p">:</span> <span class="s1">&#39;normal&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;высокий&#39;</span><span class="p">:</span> <span class="s1">&#39;high&#39;</span>
+<span class="p">}</span>
+
+<span class="n">STATUS_FROM_RU</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;в ожидании&#39;</span><span class="p">:</span> <span class="s1">&#39;pending&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;выполнена&#39;</span><span class="p">:</span> <span class="s1">&#39;done&#39;</span>
+<span class="p">}</span>
+
+
+<div class="viewcode-block" id="add_command">
+<a class="viewcode-back" href="../../my_package.html#taskmanager.commands.add_command">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">add_command</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Создание новой задачи и сохранение её</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        args: передаваемые параметры объекту класса Task</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Преобразуем строку даты в datetime, если она указана</span>
+    <span class="n">due_date</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">due_date</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Ожидаем формат YYYY-MM-DD</span>
+            <span class="n">due_date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">due_date</span><span class="p">,</span> <span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Неверный формат даты. Используйте формат YYYY-MM-DD, например 2025-11-20.&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+    <span class="c1"># Конвертируем русский приоритет в английский для хранения</span>
+    <span class="n">priority</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">priority</span> <span class="ow">or</span> <span class="s1">&#39;обычный&#39;</span>
+    <span class="n">priority</span> <span class="o">=</span> <span class="n">PRIORITY_FROM_RU</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">priority</span><span class="p">,</span> <span class="s1">&#39;normal&#39;</span><span class="p">)</span>
+
+    <span class="n">task</span> <span class="o">=</span> <span class="n">Task</span><span class="p">(</span>
+        <span class="nb">id</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()),</span>  <span class="c1"># Генерация уникального ID в виде строки</span>
+        <span class="n">title</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">title</span><span class="p">,</span>
+        <span class="n">priority</span><span class="o">=</span><span class="n">priority</span><span class="p">,</span>
+        <span class="n">due_date</span><span class="o">=</span><span class="n">due_date</span>  <span class="c1"># Дата выполнения как datetime или None</span>
+    <span class="p">)</span>
+    <span class="n">add_task</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">file_path</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Задача &#39;</span><span class="si">{</span><span class="n">task</span><span class="o">.</span><span class="n">title</span><span class="si">}</span><span class="s2">&#39; добавлена.&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="list_command">
+<a class="viewcode-back" href="../../my_package.html#taskmanager.commands.list_command">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">list_command</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Вывод списка задач с возможностью фильрации</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        args: передаваемые параметры объекту класса Task</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">tasks</span> <span class="o">=</span> <span class="n">load_tasks</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">file_path</span><span class="p">)</span> <span class="c1"># загрузка задач из файла</span>
+
+    <span class="c1"># Фильтрация по статусу, приоритету, дате и пр.</span>
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">status</span><span class="p">:</span>
+        <span class="c1"># Конвертируем русский статус в английский для сравнения</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="n">STATUS_FROM_RU</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">status</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">status</span><span class="p">)</span>
+        <span class="n">tasks</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tasks</span> <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="n">status</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">priority</span><span class="p">:</span>
+        <span class="c1"># Конвертируем русский приоритет в английский для сравнения</span>
+        <span class="n">priority</span> <span class="o">=</span> <span class="n">PRIORITY_FROM_RU</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">priority</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">priority</span><span class="p">)</span>
+        <span class="n">tasks</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tasks</span> <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">priority</span> <span class="o">==</span> <span class="n">priority</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tasks</span><span class="p">:</span>
+        <span class="n">status_ru</span> <span class="o">=</span> <span class="n">STATUS_TRANSLATIONS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">status</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">status</span><span class="p">)</span>
+        <span class="n">priority_ru</span> <span class="o">=</span> <span class="n">PRIORITY_TRANSLATIONS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">priority</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">priority</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">t</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">t</span><span class="o">.</span><span class="n">title</span><span class="si">}</span><span class="s2"> [</span><span class="si">{</span><span class="n">status_ru</span><span class="si">}</span><span class="s2">] (приоритет: </span><span class="si">{</span><span class="n">priority_ru</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="done_command">
+<a class="viewcode-back" href="../../my_package.html#taskmanager.commands.done_command">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">done_command</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Обновление статуса конкретной задачи на &quot;выполнена&quot;</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        args: передаваемые параметры объекту класса Task</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">update_task_status</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">task_id</span><span class="p">,</span> <span class="s1">&#39;done&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">file_path</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Задача </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">task_id</span><span class="si">}</span><span class="s2"> помечена как выполненная.&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Задача </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">task_id</span><span class="si">}</span><span class="s2"> не найдена.&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="delete_command">
+<a class="viewcode-back" href="../../my_package.html#taskmanager.commands.delete_command">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">delete_command</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Удаление задачи по ID</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        args: передаваемые параметры объекту класса Task</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">delete_task</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">task_id</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">file_path</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Задача </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">task_id</span><span class="si">}</span><span class="s2"> удалена.&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Задача </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">task_id</span><span class="si">}</span><span class="s2"> не найдена.&quot;</span><span class="p">)</span></div>
+
+
+
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Юровский Никита.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
